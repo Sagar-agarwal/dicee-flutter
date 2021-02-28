@@ -23,23 +23,26 @@ class DiceeApp extends StatelessWidget {
   }
 }
 
-class DicePage extends StatelessWidget {
-  const DicePage({Key key}) : super(key: key);
+class DicePage extends StatefulWidget {
+  DicePage({Key key}) : super(key: key);
+
+  @override
+  _DicePageState createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNum = 1;
+  int rightDiceNum = 1;
+
+  void shuffleDice() {
+    setState(() {
+      leftDiceNum = Random().nextInt(6) + 1;
+      rightDiceNum = Random().nextInt(6) + 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    int leftDiceNum = 1;
-    int rightDiceNum = 1;
-
-    void shuffleDice(String dice) {
-      int newNum = Random().nextInt(5) + 1;
-      if (dice == "right") {
-        rightDiceNum = newNum;
-      } else {
-        leftDiceNum = newNum;
-      }
-    }
-
     return Center(
       child: Container(
         child: Row(
@@ -48,7 +51,9 @@ class DicePage extends StatelessWidget {
               child: FlatButton(
                 child: Image.asset("images/dice$leftDiceNum.png"),
                 onPressed: () {
-                  shuffleDice("right");
+                  setState(() {
+                    shuffleDice();
+                  });
                 },
               ),
             ),
@@ -56,7 +61,9 @@ class DicePage extends StatelessWidget {
               child: FlatButton(
                 child: Image.asset("images/dice$rightDiceNum.png"),
                 onPressed: () {
-                  shuffleDice("right");
+                  setState(() {
+                    shuffleDice();
+                  });
                 },
               ),
             ),
